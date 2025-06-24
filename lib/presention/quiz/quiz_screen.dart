@@ -1,33 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:quiz_learn/core/data/questions.dart';
-import 'package:quiz_learn/presention/start/start_screen.dart';
 import 'package:quiz_learn/presention/widgets/answer_button.dart';
 
 class QuizScreen extends StatefulWidget {
-  const QuizScreen({super.key});
-
+  const QuizScreen({required this.onSelectedAnswer, super.key});
+  final void Function(String answer) onSelectedAnswer;
   @override
   State<QuizScreen> createState() => _QuizScreenState();
 }
 
 class _QuizScreenState extends State<QuizScreen> {
-  Widget? activeScreen;
-  @override
-  void initState() {
-    super.initState();
-    activeScreen = StartScreen(switchScreen);
-  }
-
-  void switchScreen() {
+  var currentQuestionIndex = 0;
+  void answerQuestion(String selectedAnswer) {
+    widget.onSelectedAnswer(selectedAnswer);
     setState(() {
-      // activeScreen = QuestionScreen();
+      currentQuestionIndex++;
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    var numberQuestion = 0;
-    final currentQuestion = questions[numberQuestion];
+    final currentQuestion = questions[currentQuestionIndex];
     return SizedBox(
       width: double.infinity,
       child: Container(
@@ -39,12 +33,19 @@ class _QuizScreenState extends State<QuizScreen> {
             Text(
               currentQuestion.text,
               textAlign: TextAlign.center,
-              style: TextStyle(color: Colors.white),
+              style: GoogleFonts.lato(
+                color: const Color.fromARGB(255, 209, 145, 232),
+                fontWeight: FontWeight.bold,
+                fontSize: 24,
+              ),
             ),
             SizedBox(height: 20),
             // cara simple MAP LIST and SPREADING VALUE (...) pada data
             ...currentQuestion.getShuffleAnswer().map((answer) {
-              return AnswerButton(onTap: () {}, answerText: answer);
+              return AnswerButton(
+                onTap: () => answerQuestion(answer),
+                answerText: answer,
+              );
             }),
             // AnswerButton(onTap: () {}, answerText: currentQuestion.answer[0]),
             // AnswerButton(onTap: () {}, answerText: currentQuestion.answer[1]),
