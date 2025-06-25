@@ -45,6 +45,7 @@ class ResultScreen extends StatelessWidget {
             ),
             SizedBox(height: 20),
             QuestionsSummary(summaryData),
+            SizedBox(height: 10),
             TextButton.icon(
               onPressed: () {
                 Navigator.of(context).pushAndRemoveUntil(
@@ -52,8 +53,11 @@ class ResultScreen extends StatelessWidget {
                   (route) => false,
                 );
               },
-              label: Text('Restart Quiz!'),
-              icon: Icon(Icons.restart_alt),
+              label: Text(
+                'Restart Quiz!',
+                style: TextStyle(color: Colors.white, fontSize: 20),
+              ),
+              icon: Icon(Icons.restart_alt, color: Colors.white, size: 22),
             ),
           ],
         ),
